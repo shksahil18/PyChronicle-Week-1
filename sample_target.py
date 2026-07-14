@@ -1,7 +1,12 @@
+project_name = "PyChronicle"
+week = 1
+
 x = 10
 y = 20
-name = "Sahil"
-
 total = x + y
 
-age = 21
+developer: str = "Sahil"
+a = b = 100
+
+items = ["AST", "SQLite", "Python"]
+config = {"debug": True, "version": 1}
