@@ -29,5 +29,18 @@ def find_assignments(file_path: str) -> list[dict]:
                             "serialized_value": ast.unparse(node.value),
                         }
                     )
+        elif isinstance(node, ast.AnnAssign):
+            if isinstance(node.target, ast.Name):
+                assignments.append(
+            {
+                "line_number": node.lineno,
+                "variable_name": node.target.id,
+                "serialized_value": (
+                    ast.unparse(node.value)
+                    if node.value is not None
+                    else "None"
+                ),
+            }
+        )
 
     return sorted(assignments, key=lambda item: item["line_number"])
