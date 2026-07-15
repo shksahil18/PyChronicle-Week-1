@@ -15,10 +15,19 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 
 ## Week 1 Features
 
-- Read target Python file.
-- Parse source code into Abstract Syntax Tree.
-- Identify assignment statements.
-- Store assignment data in SQLite.
+- Reads a target Python source file
+- Parses code using Python AST
+- Detects standard assignments
+- Detects annotated assignments
+- Detects chained assignments
+- Extracts line numbers and variable names
+- Stores assignment information in SQLite
+- Handles missing files and syntax errors
+
+## Run the project
+
+```bash
+python -m pychronicle.main
 
 ## SQLite Schema
 
