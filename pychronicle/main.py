@@ -1,6 +1,7 @@
 from pychronicle.ast_parser import find_assignments
 from pychronicle.storage import create_table, save_assignment
 from pychronicle.tracer import ExecutionTracer
+from pychronicle.ui import PyChronicleUI
 
 
 TARGET_FILE = "sample_target.py"
@@ -44,6 +45,12 @@ def main():
     tracer.run(TARGET_FILE)
 
     print("\nTracing Finished.")
+
+    print("\nLaunching PyChronicle UI...")
+
+    app = PyChronicleUI(TARGET_FILE)
+
+    app.run()
 
 
 if __name__ == "__main__":
