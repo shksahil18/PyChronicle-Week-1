@@ -1,48 +1,50 @@
 from pychronicle.ast_parser import find_assignments
 from pychronicle.storage import create_table, save_assignment
+from pychronicle.tracer import ExecutionTracer
 
 
 TARGET_FILE = "sample_target.py"
 
 
-def main() -> None:
-    try:
-        create_table()
-        assignments = find_assignments(TARGET_FILE)
+def main():
 
-        if not assignments:
-            print("No variable assignments found.")
-            return
+    print("=" * 60)
+    print("PyChronicle - Week 1 + Week 2")
+    print("=" * 60)
 
-        print("\nDetected variable assignments")
-        print("-" * 50)
+    create_table()
 
-        for assignment in assignments:
-            line_number = assignment["line_number"]
-            variable_name = assignment["variable_name"]
-            serialized_value = assignment["serialized_value"]
+    print("\nSTEP 1 : AST Parsing")
+    print("-" * 40)
 
-            print(
-                f"Line {line_number}: "
-                f"{variable_name} = {serialized_value}"
-            )
+    assignments = find_assignments(TARGET_FILE)
 
-            save_assignment(
-                line_number=line_number,
-                variable_name=variable_name,
-                serialized_value=serialized_value,
-            )
+    for assignment in assignments:
 
-        print("-" * 50)
-        print(f"Saved {len(assignments)} assignments to SQLite.")
+        print(
+            f"Line {assignment['line_number']} : "
+            f"{assignment['variable_name']} = "
+            f"{assignment['serialized_value']}"
+        )
 
-    except (FileNotFoundError, ValueError) as error:
-        print(f"Error: {error}")
-    except Exception as error:
-        print(f"Unexpected error: {error}")
+        save_assignment(
+            assignment["line_number"],
+            assignment["variable_name"],
+            assignment["serialized_value"],
+        )
+
+    print(f"\nSaved {len(assignments)} assignments.\n")
+
+    print("=" * 60)
+    print("STEP 2 : Runtime Tracing")
+    print("=" * 60)
+
+    tracer = ExecutionTracer(TARGET_FILE)
+
+    tracer.run(TARGET_FILE)
+
+    print("\nTracing Finished.")
 
 
 if __name__ == "__main__":
     main()
-
-
