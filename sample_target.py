@@ -10,3 +10,5 @@ a = b = 100
 
 items = ["AST", "SQLite", "Python"]
 config = {"debug": True, "version": 1}
+
+print(total)
