@@ -24,6 +24,22 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 - Stores assignment information in SQLite
 - Handles missing files and syntax errors
 
+## Week 2 Features
+
+### Runtime Execution Tracer
+
+- Implemented execution tracing using Python `sys.settrace()`
+- Captured execution flow of the target script
+- Recorded runtime variable states
+- Integrated runtime tracing with the existing project workflow
+
+### Terminal User Interface (Textual)
+
+- Initialized a Textual application
+- Created a source code view pane
+- Added a timeline panel placeholder
+- Designed the initial UI layout for future execution timeline navigation
+
 ## Run the project
 
 ```bash
@@ -39,3 +55,18 @@ CREATE TABLE variable_history (
     variable_name TEXT NOT NULL,
     serialized_value TEXT
 );
+
+## Current Status
+
+- ✅ Week 1 Completed
+- ✅ Week 2 Completed
+- 🔄 Week 3: Runtime timeline visualization (Upcoming)
+
+
+## Technologies Used
+
+- Python 3
+- AST (`ast`)
+- Runtime Tracing (`sys.settrace`)
+- SQLite
+- Textual
