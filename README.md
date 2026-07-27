@@ -45,17 +45,6 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 ```bash
 python -m pychronicle.main
 
-## SQLite Schema
-
-```sql
-CREATE TABLE variable_history (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    timestamp TEXT NOT NULL,
-    line_number INTEGER NOT NULL,
-    variable_name TEXT NOT NULL,
-    serialized_value TEXT
-);
-
 ## Current Status
 
 - ✅ Week 1 Completed
@@ -70,3 +59,15 @@ CREATE TABLE variable_history (
 - Runtime Tracing (`sys.settrace`)
 - SQLite
 - Textual
+
+
+## SQLite Schema
+
+```sql
+CREATE TABLE variable_history (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    timestamp TEXT NOT NULL,
+    line_number INTEGER NOT NULL,
+    variable_name TEXT NOT NULL,
+    serialized_value TEXT
+);
