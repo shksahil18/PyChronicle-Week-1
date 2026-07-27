@@ -40,10 +40,6 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 - Added a timeline panel placeholder
 - Designed the initial UI layout for future execution timeline navigation
 
-## Run the project
-
-```bash
-python -m pychronicle.main
 
 ## Current Status
 
@@ -59,6 +55,13 @@ python -m pychronicle.main
 - Runtime Tracing (`sys.settrace`)
 - SQLite
 - Textual
+
+
+## Run the project
+
+```bash
+python -m pychronicle.main
+
 
 
 ## SQLite Schema
