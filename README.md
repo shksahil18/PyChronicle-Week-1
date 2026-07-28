@@ -57,6 +57,40 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 - Textual
 
 
+# PyChronicle – Week 3 Progress (Ongoing)
+## Overview
+During Week 3, the primary goal is to transform PyChronicle from a runtime tracer into a true time-travel debugger. The focus is on optimizing data storage, improving performance, and creating an interactive interface that allows developers to move backward and forward through a program's execution history.
+
+## Week 3 Objectives
+* Implement delta compression for execution history.
+* Store only changed variable values instead of complete program states.
+* Connect the SQLite database with the Textual interface.
+* Develop a timeline slider for navigating execution history.
+* Highlight the executed source code line while scrubbing through time.
+
+## Current Work
+* Developing the delta compression system.
+* Optimizing SQLite queries for faster retrieval.
+* Connecting execution records with the terminal interface.
+* Designing the timeline navigation system.
+* Improving overall performance and reducing memory usage.
+
+## Expected Learning Outcomes
+* Understand efficient state management.
+* Learn delta-based storage techniques.
+* Improve database optimization skills.
+* Build interactive terminal applications using Textual.
+* Gain deeper knowledge of Python metaprogramming.
+
+## Next Steps (Week 4)
+* Package PyChronicle as a command-line application.
+* Add watch variables for tracking selected values.
+* Improve the user interface and overall experience.
+* Prepare the project for final testing and documentation.
+
+Week 3 is currently focused on optimizing performance and building the interactive time-travel interface that will allow developers to inspect historical program states efficiently.
+
+
 ## Run the project
 
 ```bash
