@@ -32,6 +32,8 @@ PyChronicle is a Python developer tool that analyzes Python source files using A
 - Captured execution flow of the target script
 - Recorded runtime variable states
 - Integrated runtime tracing with the existing project workflow
+- Built a Textual-based terminal UI
+- Added dynamic execution timeline loaded from SQLite
 
 ### Terminal User Interface (Textual)
 
