@@ -1,5 +1,7 @@
+project_title = "Time Travel Debugger"
 project_name = "PyChronicle"
 week = 1
+week = 2
 
 x = 10
 y = 20
