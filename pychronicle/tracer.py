@@ -1,6 +1,9 @@
+import json
 import sys
 import linecache
 from pathlib import Path
+
+from pychronicle.storage import save_runtime_state
 
 
 class ExecutionTracer:
@@ -41,15 +44,22 @@ class ExecutionTracer:
 
         print("\nVariables:")
 
+        snapshot = {}
+
         if frame.f_locals:
-
             for name, value in frame.f_locals.items():
-
                 print(f"{name} = {repr(value)}")
-
+                snapshot[name] = repr(value)
         else:
-
             print("No local variables")
+
+        serialized = json.dumps(snapshot)
+
+        save_runtime_state(
+            line_number,
+            source_line,
+            serialized,
+        )
 
         return self.trace
 
