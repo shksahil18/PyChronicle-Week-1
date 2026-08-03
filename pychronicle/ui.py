@@ -3,6 +3,7 @@ from pathlib import Path
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Header, Footer, Static
+from pychronicle.storage import get_runtime_states
 
 
 class CodePane(Static):
@@ -76,6 +77,23 @@ class PyChronicleUI(App):
 
         return "\n".join(output)
 
+    def load_timeline(self):
+        states = get_runtime_states()
+        if not states:
+            return "No runtime states found."
+        output = [
+            "Execution Timeline",
+            "",
+        ]
+        for state in states:
+            line_number = state[0]
+            source_line = state[1]
+            output.append(
+                f"✓ Line {line_number} : {source_line}"
+            )
+        return "\n".join(output)
+    
+
     def compose(self)->ComposeResult:
 
         yield Header(show_clock=True)
@@ -90,27 +108,9 @@ class PyChronicleUI(App):
             with Vertical():
 
                 yield TimelinePane(
-"""
-Execution Timeline
-
-✓ Line 1
-
-✓ Line 2
-
-✓ Line 3
-
-✓ Line 4
-
-✓ Line 5
-
-Week 2 Placeholder
-
-SQLite Runtime
-
-Ready
-""",
-                    id="timeline"
-                )
+                    self.load_timeline(),
+                    id="timeline",
+               )             
 
                 yield SliderPane(
 """
