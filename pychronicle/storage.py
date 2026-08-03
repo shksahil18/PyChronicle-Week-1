@@ -1,4 +1,5 @@
 import sqlite3
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -31,6 +32,15 @@ def create_table() -> None:
             ON variable_history(variable_name, line_number)
         """)
 
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS runtime_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp TEXT NOT NULL,
+                line_number INTEGER NOT NULL,
+                source_line TEXT NOT NULL,
+                locals_snapshot TEXT NOT NULL
+            )
+        """)
 
 def save_assignment(
     line_number: int,
@@ -57,6 +67,51 @@ def save_assignment(
                 serialized_value,
             ),
         )
+
+def save_runtime_state(
+    line_number: int,
+    source_line: str,
+    locals_snapshot: str,
+) -> None:
+
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    with get_connection() as connection:
+
+        connection.execute(
+            """
+            INSERT INTO runtime_history(
+                timestamp,
+                line_number,
+                source_line,
+                locals_snapshot
+            )
+            VALUES (?, ?, ?, ?)
+            """,
+            (
+                timestamp,
+                line_number,
+                source_line,
+                locals_snapshot,
+            ),
+        )
+
+def get_runtime_states():
+
+    with get_connection() as connection:
+
+        cursor = connection.execute(
+            """
+            SELECT
+                line_number,
+                source_line,
+                locals_snapshot
+            FROM runtime_history
+            ORDER BY id
+            """
+        )
+
+        return cursor.fetchall()
 
 
 
