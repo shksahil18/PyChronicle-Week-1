@@ -1,9 +1,9 @@
-import json
 import sys
 import linecache
 from pathlib import Path
 
-from pychronicle.storage import save_runtime_state
+from pychronicle.delta import make_delta
+from pychronicle.storage import create_trace_run, save_execution_delta
 
 
 class ExecutionTracer:
@@ -13,6 +13,9 @@ class ExecutionTracer:
 
     def __init__(self, target_file):
         self.target_file = Path(target_file).resolve()
+        self.previous_snapshot: dict[str, str] = {}
+        self.run_id: str | None = None
+        self.step_index = 0
 
     def trace(self, frame, event, arg):
 
@@ -33,37 +36,23 @@ class ExecutionTracer:
             line_number
         ).rstrip()
 
-        print("\n" + "=" * 40)
-
-        print(f"File : {current_file.name}")
-        print(f"Line : {line_number}")
-
-        print("\nSource:")
-
-        print(source_line)
-
-        print("\nVariables:")
-
-        snapshot = {}
-
-        if frame.f_locals:
-            for name, value in frame.f_locals.items():
-                print(f"{name} = {repr(value)}")
-                snapshot[name] = repr(value)
-        else:
-            print("No local variables")
-
-        serialized = json.dumps(snapshot)
-
-        save_runtime_state(
-            line_number,
-            source_line,
-            serialized,
+        snapshot = {
+            name: repr(value)
+            for name, value in frame.f_locals.items()
+            if not name.startswith("__")
+        }
+        delta = make_delta(self.previous_snapshot, snapshot)
+        if self.run_id is None:
+            raise RuntimeError("Trace run was not initialised.")
+        save_execution_delta(
+            self.run_id, self.step_index, line_number, source_line, delta
         )
+        self.previous_snapshot = snapshot
+        self.step_index += 1
 
         return self.trace
 
-    def run(self, script_path):
+    def run(self, script_path) -> str:
 
         script_path = Path(script_path).resolve()
 
@@ -80,6 +69,10 @@ class ExecutionTracer:
             "__file__": str(script_path)
         }
 
+        self.previous_snapshot = {}
+        self.step_index = 0
+        self.run_id = create_trace_run(str(script_path))
+
         sys.settrace(self.trace)
 
         try:
@@ -89,3 +82,5 @@ class ExecutionTracer:
         finally:
 
             sys.settrace(None)
+
+        return self.run_id
