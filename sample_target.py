@@ -7,6 +7,9 @@ x = 10
 y = 20
 total = x + y
 
+x = 50
+total = x + y
+
 developer: str = "Sahil"
 a = b = 100
 
