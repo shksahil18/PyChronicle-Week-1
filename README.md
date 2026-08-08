@@ -193,5 +193,3 @@ Quick verification commands:
 .\.venv\Scripts\python.exe -m compileall -q pychronicle
 .\.venv\Scripts\python.exe -m pychronicle.main --no-ui
 ```
-
-
