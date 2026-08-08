@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+from pychronicle.cli import cli
 
 from pychronicle.ast_parser import find_assignments
 from pychronicle.storage import create_table, save_assignment
@@ -48,4 +49,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    cli()
