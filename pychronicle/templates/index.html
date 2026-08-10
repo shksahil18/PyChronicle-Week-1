@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PyChronicle</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='web.css') }}">
+
+</head>
+
+<body>
+
+    <div class="app-shell">
+        <header class="topbar">
+            <div>
+                <div class="brand">
+                    PyChronicle
+                </div>
+
+                <div class="subtitle">
+                    AST Powered Time Travel Debugger
+                </div>
+
+            </div>
+
+            <div class="status-badge">
+                WEB DEBUGGER
+            </div>
+        </header>
+
+
+        <main class="landing">
+            <section class="hero">
+                <div class="hero-label">
+                    PYTHON EXECUTION ANALYZER
+                </div>
+
+                <h1>
+                    Debug your Python program
+                    <span>through time.</span>
+                </h1>
+
+                <p>
+                    Run a Python script, record its execution history,
+                    and navigate through historical variable states
+                    directly from your browser.
+                </p>
+            </section>
+
+
+            {% if error %}
+
+            <div class="error-box">
+                <strong>Execution Error</strong>
+
+                <p>{{ error }}</p>
+            </div>
+
+            {% endif %}
+
+
+            <section class="run-card">
+                <div class="card-header">
+                    <div>
+
+                        <h2>
+                            Start a Trace
+                        </h2>
+
+                        <p>
+                            Select a Python file and run it through
+                            the PyChronicle execution tracer.
+                        </p>
+                    </div>
+                </div>
+
+                <form action="{{ url_for('run_trace') }}" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Project Python File</label>
+                        <select name="target_path">
+                            {% for target in targets %}
+                            <option value="{{ target }}" {% if target==default_target %} selected {% endif %}>
+                                {{ target }}
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+
+                    <div class="divider">
+                        <span>
+                            OR
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Upload Python File
+                        </label>
+
+                        <input type="file" name="script_file" accept=".py">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Watch Variables
+                        </label>
+
+                        <input type="text" name="watch_variables" placeholder="x, total, week">
+
+                        <small>
+                            Enter variable names separated by commas.
+                        </small>
+
+                    </div>
+
+
+                    <button type="submit" class="primary-button">
+
+                        Run PyChronicle
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+            <section class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        AST
+                    </div>
+
+                    <h3>
+                        AST Analysis
+                    </h3>
+
+                    <p>
+                        Parses the target Python source and
+                        identifies variable assignments.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        TRACE
+                    </div>
+
+                    <h3>
+                        Runtime Tracing
+                    </h3>
+
+                    <p>
+                        Uses sys.settrace() to record
+                        historical execution events.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        DELTA
+                    </div>
+
+                    <h3>
+                        Delta History
+                    </h3>
+
+                    <p>
+                        Stores only changed values and
+                        reconstructs historical states.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        UI
+                    </div>
+
+                    <h3>
+                        Time Scrubbing
+                    </h3>
+
+                    <p>
+                        Navigate through execution history
+                        and inspect previous states.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <footer class="footer">
+
+            PyChronicle · Python Time Travel Debugger · Week 1–4
+
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

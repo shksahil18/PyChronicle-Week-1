@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        PyChronicle Debugger
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='web.css') }}">
+
+</head>
+
+<body>
+
+    <div class="debugger-shell">
+
+
+        <!-- HEADER -->
+
+        <header class="debug-header">
+
+            <div>
+
+                <div class="brand">
+                    PyChronicle
+                </div>
+
+                <div class="debug-subtitle">
+
+                    Time Travel Debugger
+
+                    <span>
+                        ·
+                    </span>
+
+                    {{ target_file }}
+
+                </div>
+
+            </div>
+
+
+            <a href="{{ url_for('index') }}" class="back-button">
+                ← New Trace
+            </a>
+
+        </header>
+
+
+        <!-- MAIN DEBUGGER -->
+
+        <main class="debugger-main">
+
+
+            <!-- SOURCE CODE -->
+
+            <section class="source-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            SOURCE CODE
+                        </span>
+
+                        <h2>
+                            {{ target_file }}
+                        </h2>
+
+                    </div>
+
+                    <div id="current-line" class="line-badge">
+                        Line -
+                    </div>
+
+                </div>
+
+
+                <div class="code-container">
+
+                    {% for line in source_lines %}
+
+                    <div class="code-line" data-line="{{ loop.index }}">
+
+                        <span class="line-number">
+                            {{ "%04d"|format(loop.index) }}
+                        </span>
+
+                        <span class="code-text">
+                            {{ line }}
+                        </span>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+            <!-- RIGHT SIDE -->
+
+            <section class="right-panel">
+
+
+                <!-- TIMELINE -->
+
+                <div class="panel timeline-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                EXECUTION TIMELINE
+                            </span>
+
+                            <h2>
+                                Historical Events
+                            </h2>
+
+                        </div>
+
+                        <span class="step-counter">
+                            <span id="step-number">
+                                1
+                            </span>
+                            /
+                            {{ total_steps }}
+                        </span>
+
+                    </div>
+
+
+                    <div id="timeline-list" class="timeline-list">
+                    </div>
+
+                </div>
+
+
+                <!-- VARIABLES -->
+
+                <div class="panel variables-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                RECONSTRUCTED STATE
+                            </span>
+
+                            <h2>
+                                Variables
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <div id="variables" class="variables-list">
+                    </div>
+
+                </div>
+
+
+                <!-- WATCH VARIABLES -->
+
+                <div class="panel watch-panel">
+
+                    <div class="panel-header">
+
+                        <div>
+
+                            <span class="panel-label">
+                                WATCH VARIABLES
+                            </span>
+
+                            <h2>
+                                Selected Values
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if watch_variables %}
+
+                    <div id="watch-values" class="watch-values">
+                    </div>
+
+
+                    <div class="watch-history">
+
+                        <div class="watch-history-title">
+                            History
+                        </div>
+
+                        <div id="watch-history-table">
+                        </div>
+
+                    </div>
+
+                    {% else %}
+
+                    <div class="empty-state">
+
+                        No watch variables selected.
+
+                        <br><br>
+
+                        <a href="{{ url_for('index') }}">
+                            Start another trace
+                        </a>
+
+                        and select variables such as:
+
+                        <code>
+                        x, total
+                    </code>
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- TIMELINE CONTROL -->
+
+        <section class="timeline-controls">
+
+            <button id="first-button" class="control-button">
+                |&lt;
+            </button>
+
+            <button id="previous-button" class="control-button">
+                ←
+            </button>
+
+
+            <div class="slider-wrapper">
+
+                <div class="slider-label">
+
+                    <span>
+                        Timeline
+                    </span>
+
+                    <span id="slider-step">
+                        Step 1
+                    </span>
+
+                </div>
+
+                <input id="timeline-slider" type="range" min="0" max="{{ total_steps - 1 }}"
+                    value="{{ total_steps - 1 }}">
+
+            </div>
+
+
+            <button id="next-button" class="control-button">
+                →
+            </button>
+
+            <button id="last-button" class="control-button">
+                &gt;|
+            </button>
+
+        </section>
+
+
+        <footer class="debug-footer">
+
+            <span>
+                ← Previous
+            </span>
+
+            <span>
+                → Next
+            </span>
+
+            <span>
+                Home First
+            </span>
+
+            <span>
+                End Last
+            </span>
+
+            <span>
+                Run ID:
+                {{ run_id }}
+            </span>
+
+        </footer>
+
+    </div>
+
+
+    <script>
+
+    window.PYCHRONICLE = {
+
+        runId: {{ run_id|tojson }},
+
+        events: {{ events|tojson }},
+
+        watchVariables: {{ watch_variables|tojson }},
+
+        watchHistory: {{ watch_history|tojson }},
+
+        totalSteps: {{ total_steps }}
+
+    };
+
+    </script>
+
+
+    <script src="{{ url_for('static', filename='web.js') }}"></script>
+
+</body>
+
+</html>
