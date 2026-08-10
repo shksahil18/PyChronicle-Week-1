@@ -1,8 +1,37 @@
 # PyChronicle - AST Powered Time Travel Debugger
 
 PyChronicle is a Python time-travel debugger built during a Python internship.
-It parses a target file, traces its execution, stores the execution history in
-SQLite, and displays that history in a Textual terminal interface.
+
+It parses a target Python source file, traces its execution, stores execution
+history in SQLite, compresses runtime changes using delta tracking, and
+provides interactive debugging interfaces through both a Textual terminal UI
+and a Flask-based web application.
+
+---
+
+## Project Overview
+
+Traditional Python debuggers such as `pdb` and IDE debuggers generally provide
+linear debugging. Developers move forward through program execution and may
+need to restart the application when they miss the exact point where a
+variable changed unexpectedly.
+
+PyChronicle addresses this problem by recording execution history and allowing
+developers to inspect previous execution states.
+
+The project combines:
+
+- Python AST parsing
+- Runtime execution tracing
+- SQLite persistence
+- Delta compression
+- Timeline reconstruction
+- Textual terminal UI
+- CLI integration
+- Flask browser-based interface
+- Watch variable support
+
+---
 
 ## Week 1 Progress
 
@@ -158,6 +187,7 @@ SQLite, and displays that history in a Textual terminal interface.
 * ✅ Week 2: Completed
 * ✅ Week 3: Completed
 * ✅ Week 4: Completed
+* ✅Flask Web UI: Completed
 
 ## New and updated files
 
@@ -166,6 +196,7 @@ PyChronicle/
 │
 ├── data/
 │   └── pychronicle.db
+│   └── web_targets/
 │
 ├── pychronicle/
 │   ├── __init__.py
@@ -176,7 +207,17 @@ PyChronicle/
 │   ├── timeline.py
 │   ├── ui.py
 │   ├── main.py
-│   └── cli.py
+│   ├── cli.py
+│   │
+│   ├── web.py
+│   │
+│   ├── templates/
+│   │   ├── index.html
+│   │   └── debugger.html
+│   │
+│   └── static/
+│       ├── web.css
+│       └── web.js
 │
 ├── pyChronicle_CLI_package/
 │   └── pyproject.toml
@@ -215,9 +256,15 @@ chosen target file, so older runs do not mix with the current timeline.
 # Run the Flask Web Application [Main Application Running In Browser]
 
 Start the Flask application:
+
 ```powershell
 python -m pychronicle.web
 ```
+The development server will start at:
+```
+http://127.0.0.1:5000
+```
+Open the address in a browser to access the PyChronicle web interface.
 
 ## Run it only for Terminal
 
