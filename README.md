@@ -212,7 +212,14 @@ CREATE TABLE execution_deltas (
 Each tracing session gets a new `run_id`; the UI selects the latest run for the
 chosen target file, so older runs do not mix with the current timeline.
 
-## Run it
+# Run the Flask Web Application [Main Application Running In Browser]
+
+Start the Flask application:
+```powershell
+python -m pychronicle.web
+```
+
+## Run it only for Terminal
 
 Activate the virtual environment if needed and run:
 
