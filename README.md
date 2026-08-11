@@ -377,3 +377,8 @@ The final system combines:
 
 This project was developed incrementally across four weeks, with each week
 adding a major part of the final time-travel debugging workflow.
+
+<img width="1920" height="1663" alt="screencapture-127-0-0-1-5000-2026-08-11-11_55_25" src="https://github.com/user-attachments/assets/7556f3ca-3bea-4137-9a6c-475aa39d5941" />
+
+<img width="1920" height="1008" alt="screencapture-127-0-0-1-5000-debug-63d72dbb-e40a-489d-be92-e9c68cd82acd-2026-08-11-11_57_11" src="https://github.com/user-attachments/assets/dd2791f0-d569-4a4c-9142-803e9cf89db4" />
+
