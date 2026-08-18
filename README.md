@@ -33,6 +33,11 @@ The project combines:
 
 ---
 
+## 🚀 Live Demo
+
+**PyChronicle Web Application:**  
+[Open Live Application](https://pychronicle-week-1-1.onrender.com/)
+
 ## Week 1 Progress
 
 ### Completed Work
